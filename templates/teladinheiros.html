@@ -12,6 +12,14 @@
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   <!-- Toastify CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+<!-- Toastify JS -->
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+ 
+
     
     <style>
         /* Adicione um pouco de estilo para garantir que o toast apareça à direita */
@@ -23,6 +31,7 @@
     </style>
 </head>
 <body class="bg-body-tertiary">
+    
     <header>
           <nav class="navbar navbar-expand-lg  rounded mx-3" aria-label="Eleventh navbar example">
             <div class="container-fluid ">
@@ -30,7 +39,7 @@
               <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
-      
+           <p id="mensagem" style="display: none;"></p>
               <div class="navbar-collapse collapse" id="navbarsExample09" style="">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item dropdown">
@@ -54,47 +63,154 @@
           </nav>
     </header>
  
-<div class="d-flex ms-2">
-                <div class="d-flex align-items-center flex-row-reverse;"><h4>Olá, {{nome | title}}!</h4> 
+<div class="d-flex ms-2 align-items-center ">
+                <div class="d-flex align-items-center flex-row-reverse; me-1" id="nome"><h4>Olá, {{nome | title}}!</h4> 
+            </div>
+            <div class="d-flex align-items-center justify-content-center gap-2">
+              <button style="margin: 0 55px 5px;" type="button" id="ver_saldo"><i class="bi bi-eye-fill"></i></button>    
+              <h4 id="saldo" class="saldo" style="display: block;">R$ {{saldo}}</h4>
+              
             </div> 
+          
              </div>
 
 
 
-    <h1>Bem-vindo!</h1>
+    <h1 class="text-center">Bem-vindo! ao Senac-Banck</h1>
     
       <main>
+        <div class="container col-xxl-8 px-4 py-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5 justify-content-center ">
+                <div class="col-10 col-sm-8 col-lg-6" id="tela-dinheiro1">
+                    
+                    <form id="transacaoForm">
 
+                        <div class="d-flex align-items-center flex-row gap-1" >
+                           <label for="valor_deposito" class=" mb-2" id="saque">Depositar:</label>
+                          <input type="number" step="0.01"  class="py-1" name="valor" id="valor_deposito" required>
+                          
+                          <button type="button" id="depositar" class="btn btn-primary py-2">Depositar</button>
+                        </div>
+                         
+                        <br><br>
+                        <div class="d-flex align-items-center flex-row gap-1">
+                         <label for="valor_saque" class=" d-block mb-2" id="saque">Sacar:</label>
+                        <input type="number" step="0.01" class="py-1" name="valor" id="valor_saque" required> 
+                         <button type="button" id="sacar" class="btn btn-primary py-2">Sacar</button>
+                        </div>        
+                    </form>
+
+                    <div class="circles">
+                      <ul>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                      </ul>
+                  </div>  
+                </div>
+                <div class="col-lg-6" id="lead">
+                    <h2 class="display-5 fw-bold text-body-emphasis lh-1 mb-3 " style="font-size: 44px;">Histórico de Transações</h2> 
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-around mt-1">
+                        <button type="button"  id="mostrarEntradas" class="btn btn-primary btn-lg px-4 me-md-2">Entrada</button>
+                        <button type="button"  id="mostrarTudo" class="btn btn-primary btn-lg px-4 me-md-2">MostrarTudo</button>
+                        <button type="button" id="mostrarSaidas" class="btn btn-primary btn-lg px-4">Saida</button>
+                    </div>
+                    <p class="lead" id="historico-container">
+                        <ul id="historico"></ul>
+                    </p>
+                   
+                </div>
+            </div>
+        </div>
+        <button type="button" id="limpar_historico" class="btn btn-danger btn-lg px-4">Limpar Histórico</button>
+       
     </main>
-    <h4 id="saldo">R$ {{saldo}}</h4>
-    <h2 id="">{{nome}}</h2>
-    <button style="margin: 0 55px 5px;" type="button" id="ver_saldo">Ver Saldo</button>
-    <form id="transacaoForm">
-        <label for="valor_deposito">Valor para Depositar:</label>
-        <input type="number" step="0.01" name="valor" id="valor_deposito" required>
-        <button type="button" id="depositar">Depositar</button>
-        <br><br>
-
-        <label for="valor_saque">Valor para Sacar:</label>
-        <input type="number" step="0.01" name="valor" id="valor_saque" required>
-        <button type="button" id="sacar">Sacar</button>
-        
-        
-        <p class="mensagem" id="mensagem"></p>
-    </form>
-    <p id="mensagem">{{mensagem}}</p>
-    <h2>Histórico de Transações</h2>
-    <ul id="historico"></ul>
+    <div class="container">
+      <footer class="py-5">
+        <div class="row">
+          <div class="col-6 col-md-2 mb-3">
+            <h5>Senac</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2"><a target="_blank" href="https://www.mg.senac.br/paginas/osenac.aspx" class="nav-link p-0 text-body-secondary">O Senac</a></li>
+              <li class="nav-item mb-2"><a target="_blank"  href="https://www.mg.senac.br/Noticias/Paginas/Noticias.aspx" class="nav-link p-0 text-body-secondary">Notícias</a></li>
+              <li class="nav-item mb-2"><a target="_blank" href="https://www.mg.senac.br/Eventos/Paginas/eventos.aspx" class="nav-link p-0 text-body-secondary">Eventos</a></li>
+              <li class="nav-item mb-2"><a target="_blank"  href="https://www.mg.senac.br/Paginas/faleconosco.aspx" class="nav-link p-0 text-body-secondary">Contato</a></li>
+              <li class="nav-item mb-2"><a target="_blank" href="https://www.mg.senac.br/Paginas/privacidade-de-dados.aspx" class="nav-link p-0 text-body-secondary">Privacidade de Dados</a></li>
+            </ul>
+          </div>
+    
+          <div class="col-6 col-md-2 mb-3">
+            <h5>Section</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+            </ul>
+          </div>
+    
+          <div class="col-6 col-md-2 mb-3">
+            <h5>Section</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+            </ul>
+          </div>
+    
+          <div class="col-md-5 offset-md-1 mb-3">
+            <form>
+              <h5>Subscribe to our newsletter</h5>
+              <p>Monthly digest of what's new and exciting from us.</p>
+              <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                <label for="newsletter1" class="visually-hidden">Email address</label>
+                <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+                <button class="btn btn-primary" type="button">Subscribe</button>
+              </div>
+            </form>
+          </div>
+        </div>
+    
+        <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+          <p>© 2024 Company, Inc. All rights reserved.</p>
+          <ul class="list-unstyled d-flex">
+            <li class="ms-3"><a class="link-body-emphasis" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
+            <li class="ms-3"><a class="link-body-emphasis" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
+            <li class="ms-3"><a class="link-body-emphasis" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+          </ul>
+        </div>
+      </footer>
+    </div>
+    
 </body>
 
 <script>
    $(document).ready(function() {
-            $('#ver_saldo').click(function() {
-            $('#saldo').toggle(); 
-        });
-
             $('#depositar').click(function() {
-                enviarTransacao('depositar', $('#valor_deposito').val());
+                var valorDeposito = $('#valor_deposito').val()
+                if(valorDeposito && valorDeposito > 0){
+                   enviarTransacao('depositar', valorDeposito); 
+                }else{
+                    Toastify({
+                text: "Por favor, insira um valor válido.",
+                duration: 3000,
+                gravity: "top", 
+                position: 'right', 
+                backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)", // Cor de fundo para erro
+                stopOnFocus: true,
+            }).showToast();
+                }
+                
             });
 
             $('#sacar').click(function() {
@@ -110,12 +226,37 @@
             valor: valor
         },
         success: function(response) {
-            $('#saldo').text('R$'+response.saldo.toFixed(2));
-            $('#mensagem').text(response.mensagem);
-        },
-        error: function(xhr, status, error) {
-            $('#mensagem').text("Erro: " + error);
-        }
+            if (response.sucesso) {
+      $('#saldo').text('R$ ' + response.saldo.toFixed(2));
+      Toastify({
+        text: response.mensagem,
+        duration: 3000,
+        gravity: "top",
+        position: 'right',
+        backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+        stopOnFocus: true,
+      }).showToast();
+    } else {
+      Toastify({
+        text: response.mensagem,
+        duration: 3000,
+        gravity: "top",
+        position: 'right',
+        backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+        stopOnFocus: true,
+      }).showToast();
+    }
+  },
+  error: function(xhr, status, error) {
+    Toastify({
+      text: "Erro: " + error,
+      duration: 3000,
+      gravity: "top",
+      position: 'right',
+      backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+      stopOnFocus: true,
+    }).showToast();
+  }
     });
 }
         });
@@ -136,6 +277,7 @@
             });
         }
     });
-   
+    
+
 </script>
 </html>
