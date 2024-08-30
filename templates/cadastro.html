@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <script  src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <title>Cadastro de Usuário</title>
+</head>
+<body class="d-flex align-items-center justify-content-center bg-body-tertiary  flex-column" >
+   <div class="container">
+        <header class="d-flex flex-wrap align-items-center justify-content-between py-3 mb-4 border-bottom">
+          <div class="">
+            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+              <h1>LOGO</h1>
+            </a>
+          </div>
+          <div class="text-end">
+            <button class="btn btn-primary py-2 w-100" type="submit"><a href="/" style="text-decoration: none; display: block; color: inherit;">Volta para Inicio</a></button>
+          </div>
+        </header>
+      </div>
+
+    <main class="d-flex justify-content-center align-content-center flex-column w-auto m-auto">
+       <h1>Cadastro de Usuário</h1>
+       <br>
+    <form action="/cadastro" method="post">
+        <div class="form-floating">
+           
+           <input type="text" id="nome" name="nome" class="form-control" id="floatingInput" placeholder="Digite seu nome" required>
+           <label for="floatingInput">Nome:</label><br>
+        </div>
+
+        <div class="form-floating">
+        <input type="password" id="senha" name="senha" class="form-control" id="floatingInput" placeholder="Senha:"  required> 
+         <label for="floatingInput">Senha:</label>
+         <br>
+         </div>
+        
+        <button class="btn btn-primary py-2 w-100" type="submit">Cadastrar</button> <br>
+    </form>
+    <br>
+    <p><a href="/login">Já tem uma conta? Faça login</a></p>  
+    </main>
+   
+</body>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+     // Verifica se há mensagens flash
+     const messages = {{ get_flashed_messages(with_categories=True) | tojson }};
+     if (messages.length > 0) {
+         // Exibe pop-up para cada mensagem
+         messages.forEach(([category, message]) => {
+             Swal.fire({
+                 icon: category  === 'success' ? 'success' : 'info',
+                 title: category.charAt(0).toUpperCase() + category.slice(1),
+                 text: message
+             });
+         });
+     }
+ });
+</script>
+</html>
